@@ -1,0 +1,76 @@
+.MODEL SMALL
+.STACK 100H
+.DATA   
+
+a1 db 2, 2, 2, 2 
+a2 db 1, 1, 1, 1   
+res db 4 0,0,0,0
+comma db ",$" 
+
+.CODE
+    MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX 
+
+    ;code here  
+
+   
+    mov si, 0   
+    mov cx, 4 
+      
+   jogg:
+    mov dl, [a1 + si]   
+    mov bl, [a2 + si]
+    add dl,bl
+    mov [res + si], dl 
+    inc si  
+
+   loop jogg
+
+  
+    mov bl, [res]      
+    add bl, 30h                 
+    mov ah, 2 
+    mov dl,bl              
+    int 21h                     
+
+    lea dx,comma
+    mov ah,9
+    int 21h 
+    
+    mov bl, [res+1]      
+    add bl, 30h                 
+    mov ah, 2h 
+    mov dl,bl              
+    int 21h                     
+
+    mov dl,0dh
+    mov ah,2
+    int 21h  
+    mov dl,0ah
+    mov ah,2
+    int 21h 
+
+    mov bl, [res+2]      
+    add bl, 30h                 
+    mov ah, 2
+    mov dl,bl              
+    int 21h                     
+
+
+    lea dx,comma
+    mov ah,9
+    int 21h
+     
+    mov bl, [res+3]      
+    add bl, 30h                 
+    mov ah, 2 
+    mov dl,bl              
+    int 21h                     
+    
+    
+   jmp exit
+
+ exit:
+    MAIN ENDP
+END MAIN
